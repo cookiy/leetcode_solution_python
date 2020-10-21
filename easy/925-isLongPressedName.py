@@ -46,28 +46,29 @@ class Solution:
         return i==n
 
 
-#双指针
-class Solution:
+#双指针class Solution:
     def isLongPressedName(self, name: str, typed: str) -> bool:
-        i,j = 0,0
-        n,m = len(name), len(typed)
-        if name[i]!=typed[j]:
-            return False
-
-        while i<n and j<m:
-            if name[i]==typed[j]:
-                i += 1
-                j += 1
-            else:
-                if typed[j]==name[i-1]:
-                    j += 1
-                else:
+        a, b = 0, 0
+        while b < len(typed) and a < len(name):
+            if a == b == 0:
+                if name[a] != typed[b]: # 加速判断
                     return False
-        if i==n and j==m:
-            return True
-        if i<n:
-            return False
-        if j<m:
-            if ''.join(set(typed[j:]))==typed[j]:
-                return True
-            return False
+                a += 1
+                b += 1
+            else:
+                if name[a] != typed[b]:
+                    if typed[b] == typed[b-1]:
+                        while b < len(typed) and typed[b] == typed[b-1]: # 去重
+                            b += 1
+                    else: # 加速判断
+                        return False
+                else:
+                    a += 1
+                    b += 1
+        
+        while b < len(typed): # 边界复检1
+            if typed[b] != typed[b-1]:
+                return False
+            b += 1
+
+        return True if a == len(name) else False # 边界复检2
