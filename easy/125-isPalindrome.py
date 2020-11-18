@@ -14,8 +14,25 @@
 输出: false
 
 """
-
+#筛选+判断
 class Solution:
     def isPalindrome(self, s: str) -> bool:
         s = ''.join(filter(str.isalnum, s.lower()))
         return s == s[::-1]
+
+
+#双指针
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        sgood = ''.join(ch.lower() for ch in s if ch.isalnum())
+
+        n = len(sgood)
+        left, right = 0, n-1
+
+        while left < right:
+            if sgood[left] !== sgood[right]:
+                return False
+            else:
+                left += 1
+                right -=1
+        return True
