@@ -16,8 +16,28 @@
 你能尝试使用一趟扫描实现吗？
 
 """
-# 方法二：栈
 
+
+# 计算链表长度
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int):
+        def getLength(head: ListNode) -> int:
+            length = 0
+            while head:
+                length += 1
+                head = head.next
+            return length
+        
+        dummy = ListNode(0, head)
+        length = getLength(head)
+        cur = dummy
+        for i in range(1, length - n + 1):
+            cur = cur.next
+        cur.next = cur.next.next
+        return dummy.next
+
+
+# 方法二：栈
 class Solution:
     def removeNthFromEnd(self, head, n: int):
         dummy = ListNode(0, head)
@@ -33,7 +53,7 @@ class Solution:
 
         prev = stack[-1]
         prev.next = prev.next.next
-        
+
         return dummy.next
 
 
